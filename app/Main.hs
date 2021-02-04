@@ -1,6 +1,15 @@
 module Main where
-
-import Lib
+import Graphics.Gloss.Interface.IO.Game
+import Game
+import UI
 
 main :: IO ()
-main = someFunc
+main =  do
+  playIO
+    (InWindow "Sokoban" (500, 500) (1, 1))
+    azure
+    10
+    initialState
+    drawGame
+    handleInput
+    stepGame
