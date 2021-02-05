@@ -52,26 +52,45 @@ drawCell c = case c of
           Storage  -> drawStorage
 
 drawPlayer :: Position -> Picture
-drawPlayer p = uncurry Translate (convertPosition p) (color aquamarine (circleSolid (cellSize/3)))
+drawPlayer p = uncurry Translate (convertPosition p) (color playerColor (circleSolid (cellSize/3)))
 
 drawFloor :: Picture
-drawFloor = color (greyN 0.8) (rectangleSolid cellSize cellSize)
+drawFloor = color floorColor (rectangleSolid cellSize cellSize)
 
 drawWall :: Picture
-drawWall = color (greyN 0.5) (rectangleSolid cellSize cellSize)
+drawWall = color wallColor (rectangleSolid cellSize cellSize)
 
 drawStorage :: Picture
-drawStorage = color red (rectangleSolid cellSize cellSize)
+drawStorage = drawFloor <> color storageColor (circleSolid (cellSize/4))
 
 drawBox :: Position -> Picture
-drawBox b = uncurry Translate (convertPosition b) (color azure (rectangleSolid (0.8*cellSize) (0.8*cellSize))) 
+drawBox b = uncurry Translate (convertPosition b) (color (boxColor False) (rectangleSolid (0.8*cellSize) (0.8*cellSize))) 
 
 drawFinished :: Picture 
-drawFinished = Translate (-170) 0 (Scale 0.25 0.25 (color black (Text "Terminaste el nivel!")))
+drawFinished =
+    --Translate (-10) 12 (color white (rectangleSolid (180*2) 50)) <>
+    color (withAlpha 0.8 black) (rectangleSolid 500 500) <>
+    (Translate (-170) 0 (Scale 0.25 0.25 (color white (Text "Terminaste el nivel!"))))
 
 -- Colors:
 backgroundColor :: Color
-backgroundColor = greyN 0.2
+backgroundColor = makeColorI 0 41 79 255
+
+floorColor :: Color
+floorColor = makeColorI 234 234 234 255
+
+wallColor :: Color
+wallColor = makeColorI 40 114 155 255
+
+playerColor :: Color
+playerColor = makeColorI 121 78 154 255
+
+boxColor ::  Bool -> Color
+boxColor False = makeColorI 152 70 70 255
+boxColor True = makeColorI 42 139 110 255
+
+storageColor :: Color
+storageColor = makeColorI 196 196 196 255
 
 convertPosition :: Position -> (Float, Float)
 convertPosition (row, col) = (fromIntegral col * cellSize, fromIntegral row * cellSize * (-1))
