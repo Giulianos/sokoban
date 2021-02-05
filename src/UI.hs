@@ -6,7 +6,7 @@ module UI
     )
     where
 
-import Game ( State(..), Cell(..), Direction(..), Position, Row, Level, rows, cols, transition )
+import Game ( State(..), Cell(..), Direction(..), Position, Row, Level, rows, cols, transition, isAtStorage )
 import Graphics.Gloss
 import Graphics.Gloss.Interface.IO.Game
 
@@ -35,7 +35,7 @@ drawBoard :: State -> Picture
 drawBoard state =
   let levelPicture = drawLevel $ level state
       playerPicture = drawPlayer $ player state
-      boxesPicture = Pictures (map drawBox (boxes state))
+      boxesPicture = Pictures (map (drawBox (level state)) (boxes state))
   in
     centerBoard state (levelPicture <> playerPicture <> boxesPicture)
 
@@ -63,12 +63,11 @@ drawWall = color wallColor (rectangleSolid cellSize cellSize)
 drawStorage :: Picture
 drawStorage = drawFloor <> color storageColor (circleSolid (cellSize/4))
 
-drawBox :: Position -> Picture
-drawBox b = uncurry Translate (convertPosition b) (color (boxColor False) (rectangleSolid (0.8*cellSize) (0.8*cellSize))) 
+drawBox :: Level -> Position -> Picture
+drawBox lvl b = uncurry Translate (convertPosition b) (color (boxColor (isAtStorage lvl b)) (rectangleSolid (0.8*cellSize) (0.8*cellSize))) 
 
 drawFinished :: Picture 
 drawFinished =
-    --Translate (-10) 12 (color white (rectangleSolid (180*2) 50)) <>
     color (withAlpha 0.8 black) (rectangleSolid 500 500) <>
     (Translate (-170) 0 (Scale 0.25 0.25 (color white (Text "Terminaste el nivel!"))))
 

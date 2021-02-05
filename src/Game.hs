@@ -10,6 +10,7 @@ module Game
     , initialState
     , cols
     , rows
+    , isAtStorage
     ) where
 
 data Cell = Floor | Wall | Storage deriving Show
@@ -110,16 +111,16 @@ move MRight = add (0, 1)
 initialState :: State
 initialState = State {
     level=[
-        [ Wall, Wall,  Wall,  Wall,  Wall,  Wall,  Wall,    Wall ],
-        [ Wall, Floor, Floor, Floor, Floor, Floor, Storage, Wall ],
-        [ Wall, Floor, Floor, Floor, Floor, Floor, Floor,   Wall ],
-        [ Wall, Floor, Floor, Floor, Floor, Floor, Floor,   Wall ],
-        [ Wall, Floor, Floor, Floor, Floor, Floor, Wall,    Wall ],
-        [ Wall, Floor, Floor, Floor, Floor, Floor, Storage, Wall ],
-        [ Wall, Floor, Floor, Floor, Floor, Floor, Wall,    Wall ],
-        [ Wall, Floor, Floor, Floor, Floor, Floor, Floor,   Wall ],
-        [ Wall, Floor, Floor, Floor, Floor, Floor, Floor,   Wall ],
-        [ Wall, Wall,  Wall,  Wall,  Wall,  Wall,  Wall,    Wall ]
+        [ Wall, Wall,  Wall,  Wall,    Wall,  Wall,  Wall,    Wall ],
+        [ Wall, Floor, Floor, Floor,   Floor, Floor, Wall,    Wall ],
+        [ Wall, Floor, Floor, Floor,   Floor, Floor, Floor,   Wall ],
+        [ Wall, Floor, Floor, Floor,   Floor, Floor, Floor,   Wall ],
+        [ Wall, Floor, Floor, Storage, Floor, Floor, Wall,    Wall ],
+        [ Wall, Floor, Floor, Floor,   Floor, Floor, Storage, Wall ],
+        [ Wall, Floor, Floor, Floor,   Floor, Floor, Wall,    Wall ],
+        [ Wall, Floor, Floor, Floor,   Floor, Floor, Floor,   Wall ],
+        [ Wall, Floor, Floor, Floor,   Floor, Floor, Floor,   Wall ],
+        [ Wall, Wall,  Wall,  Wall,    Wall,  Wall,  Wall,    Wall ]
     ],
     player=(2,1),
     boxes=[(2,2), (3,2)],
