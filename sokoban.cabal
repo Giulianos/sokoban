@@ -1,8 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 820a9a928f442e87d6ed4cccfddc5b59cddf873b33626cb2566f6ac47db578b1
 
 name:           sokoban
 version:        0.1.0.0

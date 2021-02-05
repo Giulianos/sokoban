@@ -6,23 +6,38 @@ module UI
     )
     where
 
-import Game ( State(player, level, boxes), Cell(..), Direction(..), Position, Row, Level, rows, cols, transition )
+import Game ( State(..), Cell(..), Direction(..), Position, Row, Level, rows, cols, transition )
 import Graphics.Gloss
 import Graphics.Gloss.Interface.IO.Game
 
 cellSize = 30
 
-pictureCenter :: State -> (Float, Float)
-pictureCenter s = ((-1 * cellSize/2) * (fromIntegral $ cols (level s)), (cellSize / 2) * (fromIntegral $ rows (level s)))
+centerBoard :: State -> Picture -> Picture
+centerBoard s p =
+  let dx = (-1 * cellSize/2) * fromIntegral (cols (level s))
+      dy = (cellSize / 2) * fromIntegral (rows (level s))
+  in
+    Translate dx dy p 
 
 -- Drawing functions
 
 drawGame :: State -> IO Picture
-drawGame state = return ((uncurry Translate) (pictureCenter state) (levelPicture <> playerPicture <> boxesPicture))
+drawGame state = return
+  (
+    boardPicture <>
+    finishedPicture
+  )
  where
-  levelPicture = drawLevel $ level state
-  playerPicture = drawPlayer $ player state
-  boxesPicture = Pictures (map drawBox (boxes state))
+   boardPicture = drawBoard state
+   finishedPicture = if finished state then drawFinished else Blank
+
+drawBoard :: State -> Picture
+drawBoard state =
+  let levelPicture = drawLevel $ level state
+      playerPicture = drawPlayer $ player state
+      boxesPicture = Pictures (map drawBox (boxes state))
+  in
+    centerBoard state (levelPicture <> playerPicture <> boxesPicture)
 
 drawLevel :: Level -> Picture 
 drawLevel = snd . foldl (\(y, pic) row -> (y - cellSize, pic <> Translate 0 y (drawRow row))) (0, Blank)
@@ -51,22 +66,29 @@ drawStorage = color red (rectangleSolid cellSize cellSize)
 drawBox :: Position -> Picture
 drawBox b = uncurry Translate (convertPosition b) (color azure (rectangleSolid (0.8*cellSize) (0.8*cellSize))) 
 
+drawFinished :: Picture 
+drawFinished = Translate (-170) 0 (Scale 0.25 0.25 (color black (Text "Terminaste el nivel!")))
 
 -- Colors:
-
 backgroundColor :: Color
 backgroundColor = greyN 0.2
 
--- TODO: fix
 convertPosition :: Position -> (Float, Float)
 convertPosition (row, col) = (fromIntegral col * cellSize, fromIntegral row * cellSize * (-1))
 
+eventToTransition :: Event -> (State -> State)
+eventToTransition (EventKey (SpecialKey KeyUp) Down _ _) = transition MUp
+eventToTransition (EventKey (SpecialKey KeyDown) Down _ _) = transition MDown
+eventToTransition (EventKey (SpecialKey KeyRight) Down _ _) = transition MRight
+eventToTransition (EventKey (SpecialKey KeyLeft) Down _ _) = transition MLeft
+eventToTransition _ = id
+
 handleInput :: Event -> State -> IO State
-handleInput (EventKey (SpecialKey KeyUp) Down _ _) = return . (transition MUp)
-handleInput (EventKey (SpecialKey KeyDown) Down _ _) = return . (transition MDown)
-handleInput (EventKey (SpecialKey KeyRight) Down _ _) = return . (transition MRight)
-handleInput (EventKey (SpecialKey KeyLeft) Down _ _) = return . (transition MLeft)
-handleInput _ = return
+handleInput e s =
+  if finished s then
+    return s
+  else
+    return (eventToTransition e s)
 
 stepGame :: Float -> State -> IO State
 stepGame _ = return
