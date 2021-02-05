@@ -7,7 +7,7 @@ main :: IO ()
 main =  do
   playIO
     (InWindow "Sokoban" (500, 500) (1, 1))
-    azure
+    backgroundColor
     10
     initialState
     drawGame
