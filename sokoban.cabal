@@ -1,10 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.33.0.
+-- This file has been generated from package.yaml by hpack version 0.34.3.
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 820a9a928f442e87d6ed4cccfddc5b59cddf873b33626cb2566f6ac47db578b1
+-- hash: 7f4b32b3ffde2608261e540ec8c3812a1b89d5a2d282dd083b066774b9e0f82b
 
 name:           sokoban
 version:        0.1.0.0
@@ -27,6 +27,7 @@ source-repository head
 
 library
   exposed-modules:
+      Data
       Game
       UI
   other-modules:
@@ -36,6 +37,7 @@ library
   build-depends:
       base >=4.7 && <5
     , gloss
+    , lens
   default-language: Haskell2010
 
 executable sokoban-exe
@@ -48,6 +50,7 @@ executable sokoban-exe
   build-depends:
       base >=4.7 && <5
     , gloss
+    , lens
     , sokoban
   default-language: Haskell2010
 
@@ -55,6 +58,7 @@ test-suite sokoban-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
+      DataSpec
       Paths_sokoban
   hs-source-dirs:
       test
@@ -62,5 +66,7 @@ test-suite sokoban-test
   build-depends:
       base >=4.7 && <5
     , gloss
+    , hspec
+    , lens
     , sokoban
   default-language: Haskell2010
