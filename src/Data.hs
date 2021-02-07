@@ -13,6 +13,7 @@ module Data
     , translateObject
     , findPlayer
     , tryMovePlayer
+    , checkFinishedBoard
     )
 where
 
@@ -106,3 +107,13 @@ movePlayerAndPush player dir board = let dst = translatePos player dir
 
 tryMovePlayer :: Direction -> Board -> Board
 tryMovePlayer dir board = maybe board (\playerPos -> movePlayerAndPush playerPos dir board) (findPlayer board)
+
+isBoxMisplaced :: Cell -> Bool
+isBoxMisplaced (Floor (Just Box)) =True
+isBoxMisplaced _ = False
+
+isRowUnfinished :: Row -> Bool
+isRowUnfinished = foldl (flip $ (||) . isBoxMisplaced) False
+
+checkFinishedBoard :: Board -> Bool
+checkFinishedBoard = not . (foldl (flip $ (||) . isRowUnfinished) False)

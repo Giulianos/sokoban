@@ -136,6 +136,16 @@ spec = parallel $ do
         context "when given a board with a player and two boxes" $ do
             it "returns the same board" $ do
                 tryMovePlayer R boardWithPlayerAndTwoBoxes `shouldBe` boardWithPlayerAndTwoBoxes
+    describe "checkFinishedBoard" $ do
+        context "when given a finished board" $ do
+            it "returns true" $ do
+                checkFinishedBoard finishedBoard `shouldBe` True
+        context "when given a partially finished board" $ do
+            it "returns false" $ do
+                checkFinishedBoard partiallyFinishedBoard `shouldBe` False
+        context "when given an unfinished board" $ do
+            it "returns false" $ do
+                checkFinishedBoard unfinishedBoard `shouldBe` False
 
 boardWithTopSpace = [
     [Wall,  Wall,                Wall],
@@ -178,3 +188,19 @@ boardWithPlayerAndTwoBoxes = [
     [Wall,  Wall,                Floor Nothing, Floor Nothing, Wall],
     [Wall,  Floor (Just Player), Floor (Just Box), Floor (Just Box), Wall],
     [Wall,  Wall,                Floor Nothing, Floor Nothing, Wall]]
+
+finishedBoard = [
+    [Wall,  Wall,                Wall, Wall, Wall],
+    [Wall,  Floor (Just Player), Floor Nothing, Storage (Just Box), Wall],
+    [Wall,  Wall,                Wall, Wall, Wall]]
+
+partiallyFinishedBoard = [
+    [Wall,  Wall,                Wall, Wall, Wall],
+    [Wall,  Floor (Just Player), Floor Nothing, Storage (Just Box), Wall],
+    [Wall,  Floor Nothing, Floor (Just Box), Storage Nothing, Wall],
+    [Wall,  Wall,                Wall, Wall, Wall]]
+
+unfinishedBoard = [
+    [Wall,  Wall,                Wall, Wall, Wall],
+    [Wall,  Floor (Just Player), Floor (Just Box), Storage Nothing, Wall],
+    [Wall,  Wall,                Wall, Wall, Wall]]
