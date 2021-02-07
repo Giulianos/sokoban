@@ -12,6 +12,7 @@ module Data
     , moveObject
     , translateObject
     , findPlayer
+    , tryMovePlayer
     )
 where
 
@@ -93,4 +94,15 @@ cellHasPlayer (Storage (Just Player)) = True
 cellHasPlayer _ = False
 
 findPlayer :: Board -> Maybe Position
-findPlayer b = do (row, mcells) <- ifind (const isJust) (map (ifind (const cellHasPlayer)) b); (col, mcell) <- mcells; return (row, col)
+findPlayer b = do
+                (row, mcells) <- ifind (const isJust) (map (ifind (const cellHasPlayer)) b)
+                (col, mcell) <- mcells
+                return (row, col)
+
+movePlayerAndPush :: Position -> Direction -> Board -> Board
+movePlayerAndPush player dir board = let dst = translatePos player dir
+                                         board' = translateObject dst dir board
+                                     in translateObject player dir board'
+
+tryMovePlayer :: Direction -> Board -> Board
+tryMovePlayer dir board = maybe board (\playerPos -> movePlayerAndPush playerPos dir board) (findPlayer board)

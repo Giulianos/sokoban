@@ -129,6 +129,13 @@ spec = parallel $ do
         context "when given an empty board" $ do
             it "returns nothing" $ do
                 findPlayer [] `shouldBe` Nothing
+    describe "tryMovePlayer" $ do
+        context "when given a board with a player and a box next to it with space" $ do
+            it "returns the board with the player and boxe moved" $ do
+                tryMovePlayer R boardWithPlayerAndBoxLeft `shouldBe` boardWithPlayerAndBoxRight
+        context "when given a board with a player and two boxes" $ do
+            it "returns the same board" $ do
+                tryMovePlayer R boardWithPlayerAndTwoBoxes `shouldBe` boardWithPlayerAndTwoBoxes
 
 boardWithTopSpace = [
     [Wall,  Wall,                Wall],
@@ -156,3 +163,18 @@ boardWithoutPlayer = [
     [Wall,  Wall,                Floor Nothing, Wall],
     [Wall,  Floor Nothing, Floor Nothing, Wall],
     [Wall,  Wall,                Floor Nothing, Wall]]
+
+boardWithPlayerAndBoxRight = [
+    [Wall,  Wall,                Floor Nothing, Floor Nothing, Wall],
+    [Wall,  Floor Nothing, Floor (Just Player), Floor (Just Box), Wall],
+    [Wall,  Wall,                Floor Nothing, Floor Nothing, Wall]]
+
+boardWithPlayerAndBoxLeft = [
+    [Wall,  Wall,                Floor Nothing, Floor Nothing, Wall],
+    [Wall,  Floor (Just Player), Floor (Just Box), Floor Nothing, Wall],
+    [Wall,  Wall,                Floor Nothing, Floor Nothing, Wall]]
+
+boardWithPlayerAndTwoBoxes = [
+    [Wall,  Wall,                Floor Nothing, Floor Nothing, Wall],
+    [Wall,  Floor (Just Player), Floor (Just Box), Floor (Just Box), Wall],
+    [Wall,  Wall,                Floor Nothing, Floor Nothing, Wall]]

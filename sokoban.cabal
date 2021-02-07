@@ -29,7 +29,8 @@ library
   exposed-modules:
       Data
       Game
-      UI
+      BoardUI
+      Events
   other-modules:
       Paths_sokoban
   hs-source-dirs:
