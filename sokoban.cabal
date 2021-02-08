@@ -1,8 +1,10 @@
 cabal-version: 1.12
 
--- This file has been generated from package.yaml by hpack version 0.34.3.
+-- This file has been generated from package.yaml by hpack version 0.33.0.
 --
 -- see: https://github.com/sol/hpack
+--
+-- hash: 44cbd64e34dbc384a3cb10ebc289a356f8b3d70a27cede8265a2e8b7b611fb09
 
 name:           sokoban
 version:        0.1.0.0
@@ -26,11 +28,15 @@ source-repository head
 library
   exposed-modules:
       Events
+      Game.States
+      Game.Transitions
+      Game.UI
       Parser.Monadic
       Parser.Sokoban
       Sokoban.Data
       Sokoban.Logic
-      UI.Board
+      Sokoban.Transitions
+      Sokoban.UI
   other-modules:
       Paths_sokoban
   hs-source-dirs:

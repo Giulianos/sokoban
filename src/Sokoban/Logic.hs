@@ -87,4 +87,4 @@ isRowUnfinished :: Row -> Bool
 isRowUnfinished = foldl (flip $ (||) . isBoxMisplaced) False
 
 checkFinishedBoard :: Board -> Bool
-checkFinishedBoard = not . (foldl (flip $ (||) . isRowUnfinished) False)
+checkFinishedBoard = not . foldl (flip $ (||) . isRowUnfinished) False

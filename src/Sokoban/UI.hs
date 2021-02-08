@@ -1,4 +1,4 @@
-module UI.Board where
+module Sokoban.UI where
 
 import Graphics.Gloss
 import Graphics.Gloss.Interface.IO.Game
@@ -7,12 +7,6 @@ import Sokoban.Logic
 
 cellSize :: Float
 cellSize = 30
-
-backgroundColor :: Color
-backgroundColor = black
-
-drawGame :: Board -> IO Picture 
-drawGame = return . drawBoard
 
 drawBoard :: Board -> Picture
 drawBoard [] = blank

@@ -1,22 +1,39 @@
 module Main where
 
-import Events
-import UI.Board
 import Graphics.Gloss.Interface.IO.Game
-import Sokoban.Data
+import Game.UI
+import Game.Transitions
+import Game.States
 import Parser.Sokoban
 
-initialState = parseBoard "####\n\
-                          \#@$.#\n\
-                          \#####\n"
+loadedBoard = parseBoard "####\n\
+                   \#@$.#\n\
+                   \#####\n"
+
+initialState = Game{ playingState=Play loadedBoard
+                   , remainingBoards=[loadedBoard, loadedBoard]
+                   , finishedAllLevels=False
+                   }
+
+draw :: Game -> IO Picture
+draw = return . drawGame
+
+input :: Event -> Game -> IO Game
+input e = return . handleInput e
+
+step :: Float -> Game -> IO Game
+step dt = return . timeStep dt
+
+background :: Color
+background = black
 
 main :: IO ()
 main =  do
   playIO
     (InWindow "Sokoban" (500, 500) (1, 1))
-    backgroundColor
+    background
     10
     initialState
-    drawGame
-    handleInput
+    draw
+    input
     step
