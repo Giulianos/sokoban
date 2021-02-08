@@ -78,3 +78,13 @@ token p = spaces >> p
 -- | parse a string token
 symb :: String -> Parser String
 symb s = token (string s)
+
+-- | repeated applications of `p'
+-- separated by applications of `sep'
+sepBy :: Parser a -> Parser b -> Parser [a]
+p `sepBy` sep = (p `sepBy1` sep) <|> return []
+
+sepBy1 :: Parser a -> Parser b -> Parser [a]
+p `sepBy1` sep = do a <- p
+                    as <- many (sep >> p)
+                    return (a:as) 

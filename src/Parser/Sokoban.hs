@@ -30,10 +30,13 @@ cell :: Parser Cell
 cell = wall <|> player <|> playerOnStorage <|> box <|> boxOnStorage <|> storage <|> floor
 
 row :: Parser Row
-row = many (do c <- cell; return c)
+row = many (do cell)
 
 board :: Parser Board
 board = many (do r <- row; char '\n'; return r)
 
-parseBoard :: String -> Board
-parseBoard s = fst (head (parse board s))
+boards :: Parser [Board]
+boards = board `sepBy` string "---"
+
+parseBoards :: String -> [Board]
+parseBoards s = fst (head (parse boards s))

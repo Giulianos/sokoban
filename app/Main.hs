@@ -4,16 +4,15 @@ import Graphics.Gloss.Interface.IO.Game
 import Game.UI
 import Game.Transitions
 import Game.States
+import Sokoban.Data
 import Parser.Sokoban
 
-loadedBoard = parseBoard "####\n\
-                   \#@$.#\n\
-                   \#####\n"
-
-initialState = Game{ playingState=Play loadedBoard
-                   , remainingBoards=[loadedBoard, loadedBoard]
-                   , finishedAllLevels=False
-                   }
+buildGameState :: [Board] -> Game
+buildGameState boards = let (first:remaining) = boards
+                        in Game{ playingState=Play first
+                               , remainingBoards=remaining
+                               , finishedAllLevels=False
+                               }
 
 draw :: Game -> IO Picture
 draw = return . drawGame
@@ -29,11 +28,12 @@ background = black
 
 main :: IO ()
 main =  do
+  fileContent <- readFile "boards.txt"
   playIO
     (InWindow "Sokoban" (500, 500) (1, 1))
     background
     10
-    initialState
+    (buildGameState (parseBoards fileContent))
     draw
     input
     step
