@@ -58,6 +58,7 @@ test-suite sokoban-test
   main-is: Spec.hs
   other-modules:
       DataSpec
+      LevelParserSpec
       Paths_sokoban
   hs-source-dirs:
       test

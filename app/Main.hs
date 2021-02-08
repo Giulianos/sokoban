@@ -4,15 +4,11 @@ import Events
 import BoardUI
 import Graphics.Gloss.Interface.IO.Game
 import Data
+import LevelParser
 
-initialState = [
-  [Wall, Wall,          Wall,          Wall],
-  [Wall, Floor Nothing, Floor Nothing, Wall],
-  [Wall, Floor Nothing, Floor (Just Box), Wall],
-  [Wall, Floor (Just Player), Floor Nothing, Wall],
-  [Wall, Floor Nothing, Floor (Just Box), Wall],
-  [Wall, Floor Nothing, Storage Nothing, Wall],
-  [Wall, Wall,          Wall,          Wall]]
+initialState = parse board "####\n\
+                           \#@$.#\n\
+                           \#####\n"
 
 main :: IO ()
 main =  do
@@ -20,7 +16,7 @@ main =  do
     (InWindow "Sokoban" (500, 500) (1, 1))
     backgroundColor
     10
-    initialState
+    (fst (head initialState))
     drawGame
     handleInput
     step
