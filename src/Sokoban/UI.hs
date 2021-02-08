@@ -27,16 +27,35 @@ drawObject (Just Player) = drawPlayer
 drawObject (Just Box) = drawBox
 
 drawFloor :: Picture
-drawFloor = color (greyN 0.8) (rectangleSolid cellSize cellSize)
+drawFloor = color floorColor (rectangleSolid cellSize cellSize)
 
 drawWall :: Picture 
-drawWall = color (greyN 0.2) (rectangleSolid cellSize cellSize)
+drawWall = color wallColor (rectangleSolid cellSize cellSize)
 
 drawStorage :: Picture
-drawStorage = drawFloor <> color (withAlpha 0.6 green) (circleSolid (cellSize/4))
+drawStorage = drawFloor <> color storageColor (circleSolid (cellSize/4))
 
 drawBox :: Picture 
-drawBox = color red (rectangleSolid cellSize cellSize)
+drawBox = color boxColor (rectangleSolid cellSize cellSize)
 
 drawPlayer :: Picture 
-drawPlayer = color orange (circleSolid (cellSize/3))
+drawPlayer = color playerColor (circleSolid (cellSize/3))
+
+-- Colors:
+backgroundColor :: Color
+backgroundColor = makeColorI 0 41 79 255
+
+floorColor :: Color
+floorColor = makeColorI 234 234 234 255
+
+wallColor :: Color
+wallColor = makeColorI 40 114 155 255
+
+playerColor :: Color
+playerColor = makeColorI 121 78 154 255
+
+boxColor :: Color
+boxColor = makeColorI 152 70 70 255
+
+storageColor :: Color
+storageColor = makeColorI 196 196 196 255

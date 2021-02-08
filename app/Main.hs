@@ -8,11 +8,10 @@ import Sokoban.Data
 import Parser.Sokoban
 
 buildGameState :: [Board] -> Game
-buildGameState boards = let (first:remaining) = boards
-                        in Game{ playingState=Play first
-                               , remainingBoards=remaining
-                               , finishedAllLevels=False
-                               }
+buildGameState boards = Game{ playingState=Title 3
+                            , remainingBoards=boards
+                            , finishedAllLevels=False
+                            }
 
 draw :: Game -> IO Picture
 draw = return . drawGame
@@ -24,7 +23,7 @@ step :: Float -> Game -> IO Game
 step dt = return . timeStep dt
 
 background :: Color
-background = black
+background = makeColorI 0 41 79 255
 
 main :: IO ()
 main =  do
