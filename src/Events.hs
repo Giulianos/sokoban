@@ -4,7 +4,8 @@ module Events ( handleInput
 where
 
 import Graphics.Gloss.Interface.IO.Game
-import Data
+import Sokoban.Data
+import Sokoban.Logic
 
 handleInput :: Event -> Board -> IO Board
 handleInput (EventKey (SpecialKey KeyUp) Down _ _) = return . tryMovePlayer U

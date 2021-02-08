@@ -1,14 +1,14 @@
 module Main where
 
 import Events
-import BoardUI
+import UI.Board
 import Graphics.Gloss.Interface.IO.Game
-import Data
-import LevelParser
+import Sokoban.Data
+import Parser.Sokoban
 
-initialState = parse board "####\n\
-                           \#@$.#\n\
-                           \#####\n"
+initialState = parseBoard "####\n\
+                          \#@$.#\n\
+                          \#####\n"
 
 main :: IO ()
 main =  do
@@ -16,7 +16,7 @@ main =  do
     (InWindow "Sokoban" (500, 500) (1, 1))
     backgroundColor
     10
-    (fst (head initialState))
+    initialState
     drawGame
     handleInput
     step

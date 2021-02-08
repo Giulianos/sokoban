@@ -1,39 +1,10 @@
-module Data
-    ( Object(..)
-    , Cell(..)
-    , Direction(..)
-    , Row
-    , Board
-    , objectAt
-    , emptyCell
-    , putObjectInCell
-    , canMoveObjectTo
-    , cellAt
-    , moveObject
-    , translateObject
-    , findPlayer
-    , tryMovePlayer
-    , checkFinishedBoard
-    )
-where
+module Sokoban.Logic where
 
-import Data.Maybe
+import Sokoban.Data
 import Control.Lens.At
 import Control.Lens
 import Control.Lens.Indexed
-
-data Object = Player | Box deriving (Eq, Show)
-
-data Cell = Floor (Maybe Object)
-          | Storage (Maybe Object)
-          | Wall deriving (Eq, Show)
-
-type Row    = [Cell]
-type Board  = [Row]
-
-type Position = (Index Board, Index Row)
-
-data Direction = U | D | L | R
+import Data.Maybe
 
 objectAt :: Cell -> Maybe Object
 objectAt (Floor obj) = obj

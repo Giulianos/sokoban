@@ -1,7 +1,8 @@
-module DataSpec (spec) where
+module Sokoban.LogicSpec (spec) where
 
 import Test.Hspec
-import Data
+import Sokoban.Data
+import Sokoban.Logic
 
 spec :: Spec
 spec = parallel $ do

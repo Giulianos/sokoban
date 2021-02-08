@@ -1,11 +1,9 @@
-module BoardUI ( drawGame
-          , backgroundColor
-    )
-where
+module UI.Board where
 
 import Graphics.Gloss
 import Graphics.Gloss.Interface.IO.Game
-import Data
+import Sokoban.Data
+import Sokoban.Logic
 
 cellSize :: Float
 cellSize = 30

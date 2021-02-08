@@ -25,10 +25,12 @@ source-repository head
 
 library
   exposed-modules:
-      BoardUI
-      Data
       Events
-      LevelParser
+      Parser.Monadic
+      Parser.Sokoban
+      Sokoban.Data
+      Sokoban.Logic
+      UI.Board
   other-modules:
       Paths_sokoban
   hs-source-dirs:
@@ -57,8 +59,8 @@ test-suite sokoban-test
   type: exitcode-stdio-1.0
   main-is: Spec.hs
   other-modules:
-      DataSpec
-      LevelParserSpec
+      Parser.SokobanSpec
+      Sokoban.LogicSpec
       Paths_sokoban
   hs-source-dirs:
       test

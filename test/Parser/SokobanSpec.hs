@@ -1,8 +1,9 @@
-module LevelParserSpec (spec) where
+module Parser.SokobanSpec (spec) where
 
 import Test.Hspec
-import LevelParser
-import Data
+import Parser.Sokoban
+import Parser.Monadic
+import Sokoban.Data
 
 spec :: Spec
 spec = parallel $ do
