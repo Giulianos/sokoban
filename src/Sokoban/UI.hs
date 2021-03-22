@@ -8,39 +8,40 @@ import Sokoban.Logic
 cellSize :: Float
 cellSize = 30
 
-drawBoard :: Board -> Picture
-drawBoard [] = blank
-drawBoard (r:rs) = drawRow r <> Translate 0 (-1*cellSize) (drawBoard rs)
+drawBoard :: [Picture] -> Board -> Picture
+drawBoard pics [] = blank
+drawBoard pics (r:rs) = drawRow r pics <> Translate 0 (-1*cellSize) (drawBoard pics rs)
 
-drawRow :: Row -> Picture
-drawRow [] = blank
-drawRow (c:cs) = drawCell c <> Translate cellSize 0 (drawRow cs)
+drawRow :: Row -> [Picture] -> Picture
+drawRow [] _ = blank
+drawRow (c:cs) pics = drawCell c pics <> Translate cellSize 0 (drawRow cs pics)
 
-drawCell :: Cell -> Picture
-drawCell Wall = drawWall
-drawCell (Floor obj) = drawFloor <> drawObject obj
-drawCell (Storage (Just Box)) = drawStorage <> drawBox True
-drawCell (Storage obj) = drawStorage <> drawObject obj
+drawCell :: Cell -> [Picture] -> Picture
+drawCell Wall pics = drawWall pics
+drawCell (Floor obj) pics = drawFloor pics <> drawObject obj pics
+drawCell (Storage (Just Box)) pics = drawStorage pics <> drawBox pics True
+drawCell (Storage obj) pics = drawStorage pics <> drawObject obj pics
 
-drawObject :: Maybe Object -> Picture
-drawObject Nothing = blank
-drawObject (Just Player) = drawPlayer
-drawObject (Just Box) = drawBox False
+drawObject :: Maybe Object -> [Picture] -> Picture
+drawObject Nothing pics = blank
+drawObject (Just Player) pics = drawPlayer pics
+drawObject (Just Box) pics = drawBox pics False
 
-drawFloor :: Picture
-drawFloor = color floorColor (rectangleSolid cellSize cellSize)
+drawFloor :: [Picture] -> Picture
+drawFloor pics = Scale 0.5 0.5 (pics!!5)
 
-drawWall :: Picture 
-drawWall = color wallColor (rectangleSolid cellSize cellSize)
+drawWall :: [Picture] -> Picture 
+drawWall pics = Scale 0.5 0.5 (pics!!0)
 
-drawStorage :: Picture
-drawStorage = drawFloor <> color storageColor (circleSolid (cellSize/4))
+drawStorage :: [Picture] -> Picture
+drawStorage pics = Scale 0.5 0.5 (pics!!4)
 
-drawBox :: Bool -> Picture 
-drawBox stored = color (boxColor stored) (rectangleSolid cellSize cellSize)
+drawBox :: [Picture] -> Bool -> Picture 
+drawBox pics False = Scale 0.5 0.5 (pics!!2)
+drawBox pics True = Scale 0.5 0.5 (pics!!3)
 
-drawPlayer :: Picture 
-drawPlayer = color playerColor (circleSolid (cellSize/3))
+drawPlayer :: [Picture] -> Picture 
+drawPlayer pics = Scale 0.5 0.5 (pics!!1)
 
 -- Colors:
 floorColor :: Color
