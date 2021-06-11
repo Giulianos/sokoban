@@ -1,5 +1,7 @@
 # Sokoban
 
+![Sokoban](./docs/img/screenshot.png)
+
 ## Requisitos
 Para ejecutar o compilar el proyecto se debe contar con Stack.
 
